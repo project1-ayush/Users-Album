@@ -1,17 +1,38 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import ApplicationIndex from "./components/applicationindex";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+const INITIAL_DATA = {
+  user: [],
+  album: [],
+  photo: [],
+};
+
+const store = createStore(reducer);
+
+function reducer(state = INITIAL_DATA, action) {
+  if (action.type === "User_data") {
+    state["user"] = action.payload;
+    var new_state = { ...state };
+    return new_state;
+  } else if (action.type === "Album_data") {
+    state["album"] = action.payload;
+    var new_state = { ...state };
+    return new_state;
+  } else if (action.type === "Photo_data") {
+    state["photo"] = action.payload;
+    var new_state = { ...state };
+    return new_state;
+  } else {
+    return state;
+  }
+}
+const jsx = (
+  <Provider store={store}>
+    <ApplicationIndex />
+  </Provider>
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render(jsx, document.getElementById("root"));
